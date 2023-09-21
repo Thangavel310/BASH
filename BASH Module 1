@@ -1,0 +1,214 @@
+--------------------------------------------------------------------------------------------------------------
+                                        Spoken Tutorial Course - BASH 
+
+                                                    Module : 1
+--------------------------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Introduction to Bash
+--------------------------------------------------------------------------------------------------------------
+
+1) Write a simple Bash shell script to display the message "Welcome to Bash learning" and "***************" on 
+   separate lines. 
+
+Script : 
+
+    #!/bin/bash
+    echo -e "Welcome to Bash learning\n***************"
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Basics of Shell Scripting
+--------------------------------------------------------------------------------------------------------------
+
+
+1) Write a simple Bash program to get the following system variables:
+   a. pwd
+   b. logname
+
+
+Script : 
+
+    #!/bin/bash 
+    echo `pwd`
+    echo `logname`
+
+
+2) Write a simple Bash program:
+   a. To ask username from user
+   b. Exit the program, if user does not enter anything within 10 seconds
+   Hint: read -t 10 -p
+
+Script : 
+    
+    #!/bin/bash
+    read -t 10 -p "Enter  the  Username : " uname
+    echo -e "\nThe Username entered : $uname\n"
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Command Line arguments and Quoting
+--------------------------------------------------------------------------------------------------------------
+
+1) Write a bash program for addition using command line arguments.
+
+Script : 
+
+    #!/bin/bash
+    echo -e "The  Numbers  received  from  Command  Line : \n"
+    echo -e "First  Number : $1"
+    echo -e "Second  Number : $2"
+    echo -e "Third  Number : $3"
+    sum=0
+    for i in $*
+    do
+    sum=$(($sum + $i))
+    done
+    echo -e "\nThe  Sum : $sum\n"
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Globbing and Export statement
+--------------------------------------------------------------------------------------------------------------
+
+1) Write a Bash script to do all operations discussed under Globbing
+
+Script : 
+
+    #!/bin/bash
+    echo -e "\n\nDisplaying  Files  with '.sh' extension : "    
+    ls *.sh
+    echo -e "\n\nDisplaying  Files with starting letter 'A'  &  with '.sh' extension : "    
+    ls A*.sh
+    echo -e "\n\nDisplaying  Files with starting letter 'a' or 'b' or 'c'  &  with '.sh' extension : "    
+    ls [a-c]*.sh
+    echo -e "\n\nDisplaying  Files except those with starting letter 'a' or 'b' or 'c' : "    
+    ls [^a-c]*.sh
+    echo -e "\n\nDisplaying  Files with starting letter 'B' or 'b'  &  with '.sh' extension : "    
+    ls [Bb]*.sh
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Array Operations in BASH
+--------------------------------------------------------------------------------------------------------------
+
+1) Declare an Array names of length 7 and find
+   a. The total number of elements
+   b. Print all the elements
+   c. Print the 5th element
+
+
+Script : 
+
+    #!/bin/bash
+    declare -a names=('Raja' 'Vetri' 'Maaran' 'Sidhu' 'Joseph' 'Sam' 'Naren')
+    echo -e "The  Total  elements  in  the  array : \n${#names[@]}\n"
+    echo -e "The  Elements  in  the  array : \n${names[@]}\n"
+    echo -e "The  5th element  in  the  array : \n${names[4]}\n"
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : More on Arrays
+--------------------------------------------------------------------------------------------------------------
+
+
+
+1) Declare an Array names2 of length 7 and perform following operations-
+   a. Extract three elements starting from index two. 
+   b. Replace third element with 'Debian' and display.
+   c. Append any new name at the end of Array.
+
+
+Script :
+
+    #!/bin/bash
+    declare -a names2=('Raja' 'Vetri' 'Maaran' 'Sidhu' 'Joseph' 'Sam' 'Naren')
+    echo -e "The 3 successive elements from index 2 : \n${names2[@]:2:3}\n"
+    names2[2]='Debian'
+    echo -e "The array after replacing the 3rd element : \n${names2[@]}\n"    
+    names2=("${names2[@]}" "New_name")
+    echo -e "The array after appending a new name : \n${names2[@]}\n"        
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Conditional execution
+--------------------------------------------------------------------------------------------------------------
+
+1) Write a script which will take your name as an input.
+2) It should check this name with your system's username.
+3) If the username matches, it should greet you by displaying "Hello".
+4) Else, it should display "Try again"
+
+HINT: Your system's username is stored in a variable $USER 
+
+
+
+Script : 
+
+    #!/bin/bash
+    read -s -p "Enter  Username : " uname
+    if [ "$uname" == "$USER" ]; then
+        echo -e "\nHello\n"
+    else
+        echo -e "\nTry Again\n"
+    fi
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Nested and multilevel if elif statements
+--------------------------------------------------------------------------------------------------------------
+
+
+1) Write a program to output different messages when number is:
+   a. Greater than 3
+   b. Lesser than 3
+   c. Or equal to 3
+   d. Or when the user input is empty
+
+
+
+Script : 
+
+    #!/bin/bash
+    read -p "Enter  a  Number : " number
+    if [ -z $number ]; then
+	echo -e "\nNo  Input  Received\n"
+    elif [ $number -eq 3 ]; then
+        echo -e "\nEqual  to  3\n"
+    elif [ $number -lt 3 ]; then
+        echo -e "\nLesser  than  3\n"
+    else
+        echo -e "\nGreater  than  3\n"
+    fi
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+
+
+
+
