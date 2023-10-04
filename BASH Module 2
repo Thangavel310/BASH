@@ -1,0 +1,364 @@
+--------------------------------------------------------------------------------------------------------------
+                                          Spoken Tutorial Course - BASH
+
+                                                    Module : 2
+--------------------------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Logical Operators
+--------------------------------------------------------------------------------------------------------------
+
+
+1) Check whether the file exists and is executable using logical operators.
+   Hint:man test
+
+Script :
+
+        #!/bin/bash
+        echo "FILENAME : "
+        read filename
+        if [ -f $filename -a -e $filename -a -x $filename]; then
+           echo "FILE  EXITS  AND  EXECUTABLE"
+        else
+           echo "FILE  NOT  AVAIABLE"
+        fi
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Arithmetic Comparison
+--------------------------------------------------------------------------------------------------------------
+
+
+
+1) Write a program to demonstrate the use of not equal to operator.
+   Hint: -ne
+
+Script :
+
+
+        #!/bin/bash
+        echo "NUMBER 1 : "
+        read n1
+        echo "NUMBER 2 : "
+        read n2
+        if [ $n1 -ne $n2 ]; then
+           echo "NUMBERS  ARE  NOT  EQUAL"
+        fi
+        if [ $n1 -eq $n2 ]; then
+           echo "NUMBERS  ARE  EQUAL"
+        fi
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : String and File attributes
+--------------------------------------------------------------------------------------------------------------
+
+1) Explore some more attributes
+   -r
+   -x
+   -o
+
+Script :
+
+# Readable : -r
+# Executable : -x
+# Finding Owner of a file : -o
+
+
+        #!/bin/bash
+        filename="output.txt"
+        fname="dummy.sh"
+        if [ -r "$filename" ]; then
+            echo -e "\nTHE  FILE  CAN  BE  READ\n\n"
+        else
+            echo -e "\nTHE  FILE  CANNOT  BE  READ\n\n"
+        fi
+        if [ -x "$fname" ]; then
+            echo -e "\nTHE  PROGRAM  IS  EXECUTABLE\n\n"
+        else
+            echo -e "\nTHE  PROGRAM  IS  NOT  EXECUTABLE\n\n"
+        fi
+        if [ -o "$filename" ]; then
+            echo -e "\nTHE  OWNER  IS  YOU\n\n"
+        else
+            echo -e "\nTHE  OWNER  IS  A  DIFFERENT  USER\n\n"
+        fi
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Conditional Loops
+--------------------------------------------------------------------------------------------------------------
+
+1) Find the sum of first n prime numbers.
+
+
+Script :
+
+    #!/bin/bash
+    echo "ENTER  N  VALUE : "
+    read n
+    sum=0
+    i=2
+    while [ $i -le $n ]
+    do
+        index=1
+        j=2
+        while [ $j -lt $i ]
+        do
+             rem=$(( $i % $j ))
+             if [ $rem -eq 0 ]; then
+                  index=0
+                  break
+             fi
+             j=$(( $j+1 ))
+        done
+        if [ $index -eq 1 ]
+        then
+            sum=$((sum+i))
+        fi
+        i=$(( $i+1 ))
+    done
+
+    echo "THE  SUM  OF  PRIME  NUMBERS  WITHIN  THE  LIMIT : "
+    echo $sum
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : More on Loops
+--------------------------------------------------------------------------------------------------------------
+
+1) Retype nested-for.sh bash script using nested while loop
+
+
+Script :
+
+  #!/bin/bash
+  i=0
+  while [ $i -lt ls -1 | wc -l];
+  do
+            echo -e "\n$i DIRECTORY  CONTAINS  THE  FOLLOWING  FILES : \n\n"
+            while IFS= read -r -d $'\0' file; do
+                echo "$file"
+            done
+            echo -e "\n\n\n"
+            i=$((i+1))
+  done
+
+
+2) Save your program with the name: nested-while.sh
+
+Command : mv nested-for.sh nested-while.sh
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Case statement
+--------------------------------------------------------------------------------------------------------------
+
+
+1) Write a menu driven program for mathematical calculation
+   a. It should take user inputs a and b
+   b. It should ask for mathematical operator (+, -, / and *).
+   c. Do the calculation
+   d. Print the output
+
+
+
+Script :
+
+    1)  #!/bin/bash
+        option=1
+        while [ $option -ne 5 ]; do
+            read -p "ENTER  NUMBER  1 : " a
+            read -p "ENTER  NUMBER  2 : " b
+            echo -e "1. ADDITION\n"
+            echo -e "2. SUBTRACTION\n"
+            echo -e "3. DIVISION\n"
+            echo -e "4. PRODUCT\n"
+            echo -e "5. TERMINATE  THE  PROGRAM\n\nENTER  THE  OPTION : "
+            read option
+            case $option in
+                1)
+                    sum=$((a+b))
+                    echo -e "\nSUM : $sum\n\n"
+                    ;;
+                2)
+                    diff=$((a-b))
+                    echo -e "\nDIFFERENCE : $diff\n\n"
+                    ;;
+                3)
+                    div=$((a/b))
+                    echo -e "\nDIVISION: $div\n\n"
+                    ;;
+                4)
+                    prod=$((a*b))
+                    echo -e "\nPRODUCT : $prod\n\n"
+                    ;;
+                5)
+                    echo -e "\nTERMINATING  THE  EXECUTION\n\n"
+                    exit 0
+                    ;;
+                *)
+                    echo -e "\n\nOPTION  IS  UNKNOWN\n\n"
+                    ;;
+            esac
+        done
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Using File Descriptors
+--------------------------------------------------------------------------------------------------------------
+
+1) Try to append few lines to a file test.txt using file descriptor.
+2) Display the content of the file using file descriptor.
+
+
+Script :
+
+    #!/bin/bash
+
+    exec 3> test.txt
+    echo "WELCOME  TO  BASH  LEARNING" >&3
+    echo "THIS  IS  THE  LINE  APPENDED  TO  THE  FILE" >&3
+    echo "END  OF  FILE" >&3
+    exec 3<&-
+
+
+    echo -e "\nAPPEND  DONE\n"
+
+
+    exec 3< test.txt
+    echo -e "\n\nTHE  CONTENT  APPENDED  INTO  THE  FILE : \n\n"
+    cat <&3
+    exec 3<&-
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Basics of functions
+--------------------------------------------------------------------------------------------------------------
+
+
+1) Write a program with two functions:
+   a. The first function should display diskspace usage in human readable form.
+      (Hint: df -h)
+   b. The second function should display filesystem usage in human readable form.
+      (Hint: du -h)
+
+
+
+
+Script :
+
+    #!/bin/bash
+    disk()
+    {
+       echo -e "\nTHE  DISK  SPACE  INFORMATION : \n\n"
+       du -h file.txt
+    }
+    file()
+    {
+       echo -e "\nTHE  FILE  SYSTEM  INFORMATION : \n\n"
+       df -h file.txt
+    }
+    disk
+    file
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : More on functions
+--------------------------------------------------------------------------------------------------------------
+
+
+1) Write a program,
+   a. where the function accepts two arguments.
+   b. The function should multiply the two arguments.
+   c. Make 3 function calls with arguments - (1, 2), (2, 3) and (3, 4)
+
+
+
+
+Script :
+
+    #!/bin/bash
+    mul()
+    {
+        echo -e "\nFUNCTION   TO  MULTIPLY   ARGUMENTS\n"
+        result=$(($1*$2))
+        echo "THE   PRODUCT  OF  $1  AND  $2  IS : $result"
+    }
+    mul 1 2
+    mul 2 3
+    mul 3 4
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Arrays and functions
+--------------------------------------------------------------------------------------------------------------
+
+
+1) Write a program,
+    a. Where a function adds all the elements in an array.
+    b. The function should display the sum of elements.
+    c. Make 2 function calls with array elements- (1, 2, 3) and (4, 5, 6).
+
+
+
+
+Script :
+
+    #!/bin/bash
+    sum()
+    {
+       sum=0
+       declare -a array=("$@")
+       for i in ${array[@]};
+       do
+          sum=$((sum+i))
+       done
+       echo -e "\nTHE  SUM  OF  THE  ELEMENTS  OF  THE  ARRAY : $sum\n"
+    }
+    declare -a a=(1 2 3)
+    declare -a b=(4 5 6)
+    sum ${a[@]}
+    sum ${b[@]}
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+
