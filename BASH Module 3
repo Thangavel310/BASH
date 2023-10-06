@@ -1,0 +1,179 @@
+--------------------------------------------------------------------------------------------------------------
+                                          Spoken Tutorial Course - BASH
+
+                                                    Module : 3
+--------------------------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Advance topics in a function
+--------------------------------------------------------------------------------------------------------------
+
+
+1) Write a function add to add two numbers and call the function in another file.
+
+Script :
+
+		add.sh
+
+	#!/bin/bash
+	function add
+	{	
+	    echo -e "\nINSIDE  THE  ADD  FUNCTION\n\n"
+	    sum=$(($1+$2))
+	    echo -e "THE SUM : $sum"
+	    echo -e "\nEND  OF  FUNCTION\n"
+	}
+
+
+		main.sh
+
+	#!/bin/bash
+	source add.sh
+	echo -e "\nCALLING  ADD  FUNCTION\n"
+	add 2 3
+	echo -e "\nEND  OF  THE  PROGRAM\n"
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Recursive function
+--------------------------------------------------------------------------------------------------------------
+
+
+
+1) Write a program where the recursive function calculates the sum of N numbers 
+
+Script :
+
+
+	#!/bin/bash
+	function add
+	{
+	   num=$1
+	   if [ $num -eq 0 ]; then
+	      echo $total
+	   else
+	      total=$((total+num))
+	      num=$((num-1))
+	      add $num
+	   fi
+	}
+
+	total=0
+	add 5
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Basics of Redirection (error handling)
+--------------------------------------------------------------------------------------------------------------
+
+1) Write a program in any language like C, C++, Java.
+2) And redirect the output or error to a new file.
+
+Script :
+
+
+            oddeven.c
+
+	#include<stdio.h>
+	int main()
+	{
+	    int num = 10;
+	    if(num % 2 == 0)
+	        printf("EVEN");
+	    else
+	        printf("ODD");
+	        return 0;
+	}
+
+          oddeven.sh
+
+	#!/bin/bash
+	./oddeven &> out_err.txt
+
+
+                      OR
+
+
+3) Create a text file with some content like your name, address.
+4) Redirect the content to a new file. 
+
+      		data.txt
+
+	P.Thangavel
+	IV-CSE-C
+	Mepco Schlenk Engineering College
+	Sivakasi
+
+
+	Command : cat data.txt > out.txt
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : More on Redirection
+--------------------------------------------------------------------------------------------------------------
+
+1) Create X_file.txt file with some content.
+2) Redirect the content of both out_file.txt and X_file.txt to a new file
+
+
+Script :
+
+		out_file.txt :
+
+	#!/bin/bash
+	ls &> out_file.txt
+	
+
+		X_file.txt  :
+	
+	P.Thangavel
+	IV-CSE-C
+	Mepco Schlenk Engineering College
+	Sivakasi
+
+
+		Append.sh
+	
+	cat out_file.txt >> New.txt
+	cat X_file.txt >> New.txt
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+Title : Here document and Here string
+--------------------------------------------------------------------------------------------------------------
+
+1) Convert a string to uppercase using:
+	a) Here document
+	b) Here string
+
+Here String :	
+
+#!/bin/bash
+echo "GIVE  AN  UPPER-CASE  STRING"
+read -s -p "" input
+output=$(tr '[:upper:]' '[:lower:]' <<<"$input")
+echo $output
+
+
+Here Document :
+
+#!/bin/bash
+echo "Enter a string:"
+read input
+output=$(tr '[:upper:]' '[:lower:]' <<<EOF
+$input
+EOF)
+echo $output
+
+
+
+--------------------------------------------------------------------------------------------------------------
